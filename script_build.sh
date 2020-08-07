@@ -5,7 +5,7 @@
 
 # Export some variables
 user=
-OUT_PATH="out/target/product/$device"
+OUT_PATH="out/target/product/$device_codename"
 tg_username=@
 ROM_ZIP=Rom*.zip
 folderid=gdrive_folder_id
@@ -24,7 +24,7 @@ export TERM=xterm
 read -r -d '' msg <<EOT
 <b>Build Started</b>
 
-<b>Device:-</b> ${device}
+<b>Device:-</b> ${device_codename}
 <b>Job Number:-</b> ${BUILD_NUMBER}
 <b>Started by:-</b> ${tg_username}
 
@@ -70,7 +70,7 @@ fi
 
 # Time to build
 source build/envsetup.sh
-lunch rom_"$device"-"$build_type"
+lunch rom_"$device_codename"-"$build_type"
 make bacon -j32
 
 END=$(date +%s)
@@ -86,7 +86,7 @@ read -r -d '' suc <<EOT
 <b>Build Finished</b>
 
 <b>Time:-</b> ${TIME}
-<b>Device:-</b> ${device}
+<b>Device:-</b> ${device_codename}
 <b>Build status:-</b> Success
 <b>Download:-</b> <a href="${link}">$RZIP</a>
 Check console output <a href="${BUILD_URL}console">HERE</a>
@@ -98,7 +98,7 @@ read -r -d '' fail <<EOT
 <b>Build Finished</b>
 
 <b>Time:-</b> ${TIME}
-<b>Device:-</b> ${device}
+<b>Device:-</b> ${device_codename}
 <b>Build status:-</b> Failed
 
 Check what caused build to fail <a href="${BUILD_URL}console">HERE</a>
