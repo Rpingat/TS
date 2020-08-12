@@ -68,6 +68,12 @@ wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
 fi
 
+if [ "$with_gapps" = "yes" ];
+then
+WITH_GAPPS=true
+TARGET_GAPPS_ARCH=arm64
+fi
+
 # Time to build
 source build/envsetup.sh
 lunch rom_"$device_codename"-"$build_type"
