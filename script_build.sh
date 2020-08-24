@@ -52,6 +52,13 @@ wait
 echo -e ${grn}"CCACHE Cleared"${txtrst};
 fi
 
+# With Gapps
+if [ "$with_gapps" = "yes" ];
+then
+export WITH_GAPPS=true
+export TARGET_GAPPS_ARCH=arm64
+fi
+
 # Clean build
 if [ "$make_clean" = "yes" ];
 then
@@ -66,12 +73,6 @@ make installclean
 rm -rf ${OUT_PATH}/${ROM_ZIP}
 wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
-fi
-
-if [ "$with_gapps" = "yes" ];
-then
-WITH_GAPPS=true
-TARGET_GAPPS_ARCH=arm64
 fi
 
 # Time to build
