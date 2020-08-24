@@ -75,6 +75,8 @@ wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
 fi
 
+rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
+
 # Time to build
 source build/envsetup.sh
 lunch rom_"$device_codename"-"$build_type"
