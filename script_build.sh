@@ -74,7 +74,7 @@ rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
 
 # Time to build
 source build/envsetup.sh
-lunch rom_"$device_codename"-"$build_type"
+lunch "$lunch_command"_"$device_codename"-"$build_type"
 make bacon -j24
 
 END=$(date +%s)
