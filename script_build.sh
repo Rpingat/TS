@@ -75,7 +75,7 @@ rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
 # Time to build
 source build/envsetup.sh
 lunch rom_"$device_codename"-"$build_type"
-make bacon -j32
+make bacon -j24
 
 END=$(date +%s)
 TIME=$(echo $((${END}-${START})) | awk '{print int($1/60)" Minutes and "int($1%60)" Seconds"}')
