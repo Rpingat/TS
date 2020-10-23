@@ -58,6 +58,7 @@ fi
 if [ "$make_clean" = "yes" ];
 then
 make clean && make clobber
+rm -rf out/ #make clean doesn't work for A11
 wait
 echo -e ${cya}"OUT dir from your repo deleted"${txtrst};
 fi
