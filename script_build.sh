@@ -5,6 +5,9 @@
 
 # Export some variables
 user=
+lunch_command=
+device_codename=
+build_type=
 OUT_PATH="out/target/product/$device_codename"
 tg_username=@
 ROM_ZIP=Rom*.zip
@@ -40,7 +43,7 @@ echo -e ${blu}"CCACHE is enabled for this build"${txtrst}
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
 export CCACHE_DIR=/home/$user/ccache
-ccache -M 75G
+ccache -M 50G
 fi
 
 if [ "$use_ccache" = "clean" ];
@@ -49,16 +52,19 @@ export CCACHE_EXEC=$(which ccache)
 export CCACHE_DIR=/home/$user/ccache
 ccache -C
 export USE_CCACHE=1
-ccache -M 75G
+ccache -M 50G
 wait
 echo -e ${grn}"CCACHE Cleared"${txtrst};
 fi
 
-# Clean build
+rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
+
+# Time to build
+source build/envsetup.sh
+# Make clean
 if [ "$make_clean" = "yes" ];
 then
-make clean && make clobber
-rm -rf out/ #make clean doesn't work for A11
+make clean
 wait
 echo -e ${cya}"OUT dir from your repo deleted"${txtrst};
 fi
@@ -66,17 +72,11 @@ fi
 if [ "$make_clean" = "installclean" ];
 then
 make installclean
-rm -rf ${OUT_PATH}/${ROM_ZIP}
 wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
 fi
-
-rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
-
-# Time to build
-source build/envsetup.sh
 lunch "$lunch_command"_"$device_codename"-"$build_type"
-make bacon -j24
+make bacon -j16
 
 END=$(date +%s)
 TIME=$(echo $((${END}-${START})) | awk '{print int($1/60)" Minutes and "int($1%60)" Seconds"}')
