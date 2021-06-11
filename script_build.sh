@@ -11,7 +11,7 @@ build_type=
 OUT_PATH="out/target/product/$device_codename"
 tg_username=@
 ROM_ZIP=Rom*.zip
-folderid=gdrive_folder_id
+upload_sftp=
 tgsend_conf=example.conf
 START=$(date +%s)
 
@@ -83,11 +83,25 @@ make bacon -j16
 END=$(date +%s)
 TIME=$(echo $((${END}-${START})) | awk '{print int($1/60)" Minutes and "int($1%60)" Seconds"}')
 
+export SSHPASS=""
+
 if [ `ls $OUT_PATH/$ROM_ZIP 2>/dev/null | wc -l` != "0" ]; then
 cd $OUT_PATH
 RZIP="$(ls ${ROM_ZIP})"
-fileid=$(gdrive upload --parent ${folderid} ${RZIP} | tail -1 | awk '{print $2}')
-link="https://drive.google.com/file/d/$fileid/view?usp=drivesdk"
+
+if [ "$upload_sftp" = "yes" ];
+then
+   ~/sshpass -e sftp -oBatchMode=no -b - user@frs.thunderserver.in << !
+     cd /${user}
+     put ${RZIP}
+     bye
+!
+link="https://dl.thunderserver.in/${user}/${RZIP}"
+else
+rclone copy ${RZIP} gdrive:
+link=" "
+fi
+
 # Send message to TG
 read -r -d '' suc <<EOT
 <b>Build Finished</b>
