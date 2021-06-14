@@ -110,7 +110,10 @@ read -r -d '' suc <<EOT
 <b>Device:-</b> ${device_codename}
 <b>Build status:-</b> Success
 <b>Download:-</b> <a href="${link}">$RZIP</a>
+
 Check console output <a href="${BUILD_URL}console">HERE</a>
+
+cc: ${tg_username}
 EOT
 telegram-send --format html "$suc"
 #telegram-send --format html "$suc" --config ~/${tgsend_conf}
@@ -124,6 +127,8 @@ read -r -d '' fail <<EOT
 <b>Build status:-</b> Failed
 
 Check what caused build to fail <a href="${BUILD_URL}console">HERE</a>
+
+cc: ${tg_username}
 EOT
 telegram-send --format html "$fail"
 #telegram-send --format html "$fail" --config ~/${tgsend_conf}
