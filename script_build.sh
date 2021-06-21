@@ -132,4 +132,5 @@ cc: ${tg_username}
 EOT
 telegram-send --format html "$fail"
 #telegram-send --format html "$fail" --config ~/${tgsend_conf}
+exit 1
 fi
