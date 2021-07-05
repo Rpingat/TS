@@ -78,7 +78,7 @@ wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
 fi
 lunch "$lunch_command"_"$device_codename"-"$build_type"
-make bacon -j24
+make bacon -j$(nproc --all)
 
 END=$(date +%s)
 TIME=$(echo $((${END}-${START})) | awk '{print int($1/60)" Minutes and "int($1%60)" Seconds"}')
