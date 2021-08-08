@@ -8,6 +8,8 @@ user=
 lunch_command=
 device_codename=
 build_type=
+HOME_DIR="/home/ravi"
+CURRENT_DIR=$(pwd)
 OUT_PATH="out/target/product/$device_codename"
 tg_username=@
 ROM_ZIP=Rom*.zip
@@ -118,6 +120,11 @@ EOT
 telegram-send --format html "$suc"
 #telegram-send --format html "$suc" --config ~/${tgsend_conf}
 else
+#Upload error log to stagbin & katbn
+cd ${CURRENT_DIR}
+stagbin=$(python3 ${HOME_DIR}/stagbin.py)
+katbn=$(python3 ${HOME_DIR}/katbn.py)
+
 # Send message to TG
 read -r -d '' fail <<EOT
 <b>Build Finished</b>
@@ -125,6 +132,8 @@ read -r -d '' fail <<EOT
 <b>Time:-</b> ${TIME}
 <b>Device:-</b> ${device_codename}
 <b>Build status:-</b> Failed
+
+Error logs:- <a href="${stagbin}">StagBin</a> | <a href="${katbn}">Katbn</a>
 
 Check what caused build to fail <a href="${BUILD_URL}console">HERE</a>
 
