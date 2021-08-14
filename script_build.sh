@@ -65,6 +65,7 @@ rm -rf ${OUT_PATH}/${ROM_ZIP} #clean rom zip in any case
 
 # Time to build
 source build/envsetup.sh
+lunch "$lunch_command"_"$device_codename"-"$build_type"
 # Make clean
 if [ "$make_clean" = "yes" ];
 then
@@ -79,7 +80,6 @@ make installclean
 wait
 echo -e ${cya}"Images deleted from OUT dir"${txtrst};
 fi
-lunch "$lunch_command"_"$device_codename"-"$build_type"
 make bacon -j$(nproc --all)
 
 END=$(date +%s)
